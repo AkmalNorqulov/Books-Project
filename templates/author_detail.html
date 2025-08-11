@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ object.first_name }} {{ object.last_name }}{% endblock %}
+{% block content %}
+<div class="author-detail-container">
+    <div class="author-detail-header">
+        <img src="{{ object.icon.url }}" alt="{{ object.first_name }} {{ object.last_name }}" class="author-profile-picture">
+        <h2>{{ object.first_name }} {{ object.last_name }}</h2>
+        <p class="author-email">{{ object.email }}</p>
+    </div>
+    <div class="author-detail-body">
+        <div class="author-bio">
+            <strong>Bio:</strong>
+            <p>{{ object.bio }}</p>
+        </div>
+        <div class="author-books">
+            <h3>Books Written</h3>
+            {% with books=object.bookauthor_set.all %}
+                {% if books %}
+                    <ul class="author-books-list">
+                        {% for ba in books %}
+                            <li>
+                                <a href="{% url 'book_detail' ba.book.pk %}">
+                                    {{ ba.book.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>This author has not written any books yet.</p>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <a href="{% url 'author_list' %}" class="back-link">&larr; Back to Author List</a>
+</div>
+{% endblock %}

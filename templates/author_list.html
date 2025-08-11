@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Author List{% endblock %}
+{% block content %}
+<h2>Authors</h2>
+{% if authors %}
+    <ul class="author-list">
+        {% for author in authors %}
+            <li class="author-item">
+                <div class="author-info">
+                    <img src="{{ author.icon.url }}" alt="{{ author.first_name }} {{ author.last_name }}" class="author-icon">
+                    <h3>
+                        <a href="{% url 'author_detail' author.pk %}">
+                            {{ author.first_name }} {{ author.last_name }}
+                        </a>
+                    </h3>
+                    <p class="author-email">{{ author.email }}</p>
+                    <p class="author-bio">
+                        {{ author.bio|truncatewords:30 }}
+                    </p>
+                    <a href="{% url 'author_detail' author.pk %}" class="view-profile-btn">View Profile</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No authors found.</p>
+{% endif %}
+{% endblock %}
